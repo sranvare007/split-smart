@@ -1,14 +1,7 @@
-import React, { useState, useEffect, useCallback } from "react";
-import {
-  StyleSheet,
-  View,
-  Text,
-  TouchableOpacity,
-  ScrollView,
-  StatusBar,
-} from "react-native";
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import { Split } from "../../types/split";
+import React, { useState, useEffect, useCallback } from 'react'
+import { StyleSheet, View, Text, TouchableOpacity, ScrollView, StatusBar } from 'react-native'
+import { useFocusEffect, useNavigation } from '@react-navigation/native'
+import { Split } from '../../types/split'
 import {
   loadSplits,
   saveSplits,
@@ -20,101 +13,90 @@ import {
   resetSplit,
   updateSplit,
   autoAdvanceSplitIfNeeded,
-} from "../../utils/splitUtils";
-import {
-  Colors,
-  Typography,
-  FontWeight,
-  FontFamily,
-  Spacing,
-  BorderRadius,
-} from "../../constants/theme";
-import { SafeAreaView } from "react-native-safe-area-context";
+} from '../../utils/splitUtils'
+import { Colors, Typography, FontWeight, FontFamily, Spacing, BorderRadius } from '../../constants/theme'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 export function Home() {
-  const navigation = useNavigation();
-  const [activeSplit, setActiveSplit] = useState<Split | null>(null);
+  const navigation = useNavigation()
+  const [activeSplit, setActiveSplit] = useState<Split | null>(null)
   const [todaysWorkout, setTodaysWorkout] = useState<{
-    muscleGroups: string;
-    dayNumber: number;
-  } | null>(null);
-  const [isHoliday, setIsHoliday] = useState(false);
+    muscleGroups: string
+    dayNumber: number
+  } | null>(null)
+  const [isHoliday, setIsHoliday] = useState(false)
 
   const loadData = async () => {
-    const splits = await loadSplits();
-    let active = getActiveSplit(splits);
+    const splits = await loadSplits()
+    let active = getActiveSplit(splits)
 
     // Auto-advance split if days have passed since last access
     if (active) {
-      const updatedSplit = await autoAdvanceSplitIfNeeded(active);
+      const updatedSplit = await autoAdvanceSplitIfNeeded(active)
 
       // If split was advanced, save it
       if (updatedSplit.currentDayIndex !== active.currentDayIndex) {
-        const updatedSplits = updateSplit(splits, updatedSplit);
-        await saveSplits(updatedSplits);
-        active = updatedSplit;
+        const updatedSplits = updateSplit(splits, updatedSplit)
+        await saveSplits(updatedSplits)
+        active = updatedSplit
       }
     }
 
-    setActiveSplit(active);
+    setActiveSplit(active)
 
     if (active) {
-      const today = new Date().getDay();
-      const isHolidayDay = active.weeklyHolidays.includes(today);
-      setIsHoliday(isHolidayDay);
+      const today = new Date().getDay()
+      const isHolidayDay = active.weeklyHolidays.includes(today)
+      setIsHoliday(isHolidayDay)
 
-      const workout = getTodaysWorkout(active);
-      setTodaysWorkout(workout);
+      const workout = getTodaysWorkout(active)
+      setTodaysWorkout(workout)
     } else {
-      setTodaysWorkout(null);
-      setIsHoliday(false);
+      setTodaysWorkout(null)
+      setIsHoliday(false)
     }
-  };
+  }
 
   useFocusEffect(
     useCallback(() => {
-      loadData();
+      loadData()
     }, [])
-  );
+  )
 
   const handleNextDay = async () => {
-    if (!activeSplit) return;
+    if (!activeSplit) return
 
-    const splits = await loadSplits();
-    const updatedSplit = advanceToNextDay(activeSplit);
-    const newSplits = updateSplit(splits, updatedSplit);
-    await saveSplits(newSplits);
-    await loadData();
-  };
+    const splits = await loadSplits()
+    const updatedSplit = advanceToNextDay(activeSplit)
+    const newSplits = updateSplit(splits, updatedSplit)
+    await saveSplits(newSplits)
+    await loadData()
+  }
 
   const handlePreviousDay = async () => {
-    if (!activeSplit) return;
+    if (!activeSplit) return
 
-    const splits = await loadSplits();
-    const updatedSplit = goToPreviousDay(activeSplit);
-    const newSplits = updateSplit(splits, updatedSplit);
-    await saveSplits(newSplits);
-    await loadData();
-  };
+    const splits = await loadSplits()
+    const updatedSplit = goToPreviousDay(activeSplit)
+    const newSplits = updateSplit(splits, updatedSplit)
+    await saveSplits(newSplits)
+    await loadData()
+  }
 
   const handleReset = async () => {
-    if (!activeSplit) return;
+    if (!activeSplit) return
 
-    const splits = await loadSplits();
-    const updatedSplit = resetSplit(activeSplit);
-    const newSplits = updateSplit(splits, updatedSplit);
-    await saveSplits(newSplits);
-    await loadData();
-  };
+    const splits = await loadSplits()
+    const updatedSplit = resetSplit(activeSplit)
+    const newSplits = updateSplit(splits, updatedSplit)
+    await saveSplits(newSplits)
+    await loadData()
+  }
 
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" />
-      <ScrollView
-        style={styles.scrollView}
-        contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={false}
-      >
+      <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
         {/* Header */}
         <View style={styles.header}>
           <Text style={styles.appTitle}>SPLIT SMART</Text>
@@ -129,20 +111,14 @@ export function Home() {
                 <>
                   <Text style={styles.label}>TODAY IS</Text>
                   <Text style={styles.holidayText}>REST DAY</Text>
-                  <Text style={styles.holidaySubtext}>
-                    Enjoy your day off! 💪
-                  </Text>
+                  <Text style={styles.holidaySubtext}>Enjoy your day off! 💪</Text>
                 </>
               ) : todaysWorkout ? (
                 <>
                   <Text style={styles.label}>TODAY'S WORKOUT</Text>
-                  <Text style={styles.workoutTitle}>
-                    {todaysWorkout.muscleGroups.toUpperCase()}
-                  </Text>
+                  <Text style={styles.workoutTitle}>{todaysWorkout.muscleGroups.toUpperCase()}</Text>
                   <View style={styles.dayBadge}>
-                    <Text style={styles.dayBadgeText}>
-                      DAY {todaysWorkout.dayNumber}
-                    </Text>
+                    <Text style={styles.dayBadgeText}>DAY {todaysWorkout.dayNumber}</Text>
                   </View>
                 </>
               ) : (
@@ -157,38 +133,25 @@ export function Home() {
             <View style={styles.splitInfoCard}>
               <Text style={styles.splitInfoLabel}>ACTIVE SPLIT</Text>
               <Text style={styles.splitInfoName}>{activeSplit.name}</Text>
-              <Text style={styles.splitInfoDetails}>
-                {activeSplit.days.length} Day Program
-              </Text>
+              <Text style={styles.splitInfoDetails}>{activeSplit.days.length} Day Program</Text>
             </View>
 
             {/* Quick Controls */}
             <View style={styles.controlsCard}>
               <Text style={styles.controlsTitle}>QUICK ADJUST</Text>
-              <Text style={styles.controlsSubtitle}>
-                Missed gym? Adjust your split
-              </Text>
+              <Text style={styles.controlsSubtitle}>Missed gym? Adjust your split</Text>
 
               <View style={styles.controlsRow}>
-                <TouchableOpacity
-                  style={[styles.controlButton, styles.controlButtonSecondary]}
-                  onPress={handlePreviousDay}
-                >
+                <TouchableOpacity style={[styles.controlButton, styles.controlButtonSecondary]} onPress={handlePreviousDay}>
                   <Text style={styles.controlButtonText}>← BACK</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity
-                  style={[styles.controlButton, styles.controlButtonPrimary]}
-                  onPress={handleNextDay}
-                >
+                <TouchableOpacity style={[styles.controlButton, styles.controlButtonPrimary]} onPress={handleNextDay}>
                   <Text style={styles.controlButtonText}>NEXT →</Text>
                 </TouchableOpacity>
               </View>
 
-              <TouchableOpacity
-                style={[styles.controlButton, styles.controlButtonReset]}
-                onPress={handleReset}
-              >
+              <TouchableOpacity style={[styles.controlButton, styles.controlButtonReset]} onPress={handleReset}>
                 <Text style={styles.controlButtonText}>↻ RESET TO DAY 1</Text>
               </TouchableOpacity>
             </View>
@@ -196,13 +159,8 @@ export function Home() {
         ) : (
           <View style={styles.emptyCard}>
             <Text style={styles.emptyTitle}>NO ACTIVE SPLIT</Text>
-            <Text style={styles.emptyText}>
-              Create a split to start tracking your workouts
-            </Text>
-            <TouchableOpacity
-              style={styles.primaryButton}
-              onPress={() => (navigation as any).navigate("Splits")}
-            >
+            <Text style={styles.emptyText}>Create a split to start tracking your workouts</Text>
+            <TouchableOpacity style={styles.primaryButton} onPress={() => (navigation as any).navigate('Splits')}>
               <Text style={styles.primaryButtonText}>MANAGE SPLITS</Text>
             </TouchableOpacity>
           </View>
@@ -210,16 +168,13 @@ export function Home() {
 
         {/* Manage Splits Button */}
         {activeSplit && (
-          <TouchableOpacity
-            style={styles.manageButton}
-            onPress={() => (navigation as any).navigate("Splits")}
-          >
+          <TouchableOpacity style={styles.manageButton} onPress={() => (navigation as any).navigate('Splits')}>
             <Text style={styles.manageButtonText}>MANAGE SPLITS</Text>
           </TouchableOpacity>
         )}
       </ScrollView>
     </SafeAreaView>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -288,7 +243,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.md,
     paddingVertical: Spacing.sm,
     borderRadius: BorderRadius.full,
-    alignSelf: "flex-start",
+    alignSelf: 'flex-start',
   },
   dayBadgeText: {
     fontSize: Typography.small,
@@ -340,7 +295,7 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.md,
   },
   controlsRow: {
-    flexDirection: "row",
+    flexDirection: 'row',
     gap: Spacing.md,
     marginBottom: Spacing.md,
   },
@@ -348,7 +303,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingVertical: Spacing.md,
     borderRadius: BorderRadius.md,
-    alignItems: "center",
+    alignItems: 'center',
   },
   controlButtonPrimary: {
     backgroundColor: Colors.primary,
@@ -369,7 +324,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.cardBackground,
     borderRadius: BorderRadius.lg,
     padding: Spacing.xl,
-    alignItems: "center",
+    alignItems: 'center',
     marginBottom: Spacing.lg,
   },
   emptyTitle: {
@@ -383,7 +338,7 @@ const styles = StyleSheet.create({
     fontSize: Typography.regular,
     fontFamily: FontFamily.body,
     color: Colors.textTertiary,
-    textAlign: "center",
+    textAlign: 'center',
     marginBottom: Spacing.lg,
   },
   primaryButton: {
@@ -402,7 +357,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.cardBackground,
     paddingVertical: Spacing.md,
     borderRadius: BorderRadius.md,
-    alignItems: "center",
+    alignItems: 'center',
     borderWidth: 2,
     borderColor: Colors.border,
   },
@@ -412,4 +367,4 @@ const styles = StyleSheet.create({
     color: Colors.textPrimary,
     letterSpacing: 0.5,
   },
-});
+})

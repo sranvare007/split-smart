@@ -1,93 +1,68 @@
-import React, { useState, useEffect } from "react";
-import {
-  StyleSheet,
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  ScrollView,
-  StatusBar,
-  Alert,
-} from "react-native";
-import { useNavigation, useRoute } from "@react-navigation/native";
-import { Split, SplitDay, DAYS_OF_WEEK } from "../../types/split";
-import {
-  loadSplits,
-  saveSplits,
-  createSplit,
-  updateSplit,
-} from "../../utils/splitUtils";
-import {
-  Colors,
-  Typography,
-  FontWeight,
-  FontFamily,
-  Spacing,
-  BorderRadius,
-} from "../../constants/theme";
-import { SafeAreaView } from "react-native-safe-area-context";
+import React, { useState, useEffect } from 'react'
+import { StyleSheet, View, Text, TextInput, TouchableOpacity, ScrollView, StatusBar, Alert } from 'react-native'
+import { useNavigation, useRoute } from '@react-navigation/native'
+import { Split, SplitDay, DAYS_OF_WEEK } from '../../types/split'
+import { loadSplits, saveSplits, createSplit, updateSplit } from '../../utils/splitUtils'
+import { Colors, Typography, FontWeight, FontFamily, Spacing, BorderRadius } from '../../constants/theme'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 export function AddEditSplit() {
-  const navigation = useNavigation();
-  const route = useRoute();
-  const isEdit = !!(route.params as any)?.split;
-  const existingSplit: Split | undefined = (route.params as any)?.split;
+  const navigation = useNavigation()
+  const route = useRoute()
+  const isEdit = !!(route.params as any)?.split
+  const existingSplit: Split | undefined = (route.params as any)?.split
 
-  const [name, setName] = useState(existingSplit?.name || "");
-  const [days, setDays] = useState<SplitDay[]>(
-    existingSplit?.days || [{ dayNumber: 1, muscleGroups: "" }]
-  );
-  const [weeklyHolidays, setWeeklyHolidays] = useState<number[]>(
-    existingSplit?.weeklyHolidays || []
-  );
+  const [name, setName] = useState(existingSplit?.name || '')
+  const [days, setDays] = useState<SplitDay[]>(existingSplit?.days || [{ dayNumber: 1, muscleGroups: '' }])
+  const [weeklyHolidays, setWeeklyHolidays] = useState<number[]>(existingSplit?.weeklyHolidays || [])
 
   const handleAddDay = () => {
-    setDays([...days, { dayNumber: days.length + 1, muscleGroups: "" }]);
-  };
+    setDays([...days, { dayNumber: days.length + 1, muscleGroups: '' }])
+  }
 
   const handleRemoveDay = (index: number) => {
     if (days.length === 1) {
-      Alert.alert("Error", "You must have at least one day in your split");
-      return;
+      Alert.alert('Error', 'You must have at least one day in your split')
+      return
     }
-    const newDays = days.filter((_, i) => i !== index);
+    const newDays = days.filter((_, i) => i !== index)
     // Renumber days
     const renumbered = newDays.map((day, i) => ({
       ...day,
       dayNumber: i + 1,
-    }));
-    setDays(renumbered);
-  };
+    }))
+    setDays(renumbered)
+  }
 
   const handleDayChange = (index: number, value: string) => {
-    const newDays = [...days];
-    newDays[index].muscleGroups = value;
-    setDays(newDays);
-  };
+    const newDays = [...days]
+    newDays[index].muscleGroups = value
+    setDays(newDays)
+  }
 
   const toggleHoliday = (dayIndex: number) => {
     if (weeklyHolidays.includes(dayIndex)) {
-      setWeeklyHolidays(weeklyHolidays.filter((d) => d !== dayIndex));
+      setWeeklyHolidays(weeklyHolidays.filter((d) => d !== dayIndex))
     } else {
-      setWeeklyHolidays([...weeklyHolidays, dayIndex]);
+      setWeeklyHolidays([...weeklyHolidays, dayIndex])
     }
-  };
+  }
 
   const handleSave = async () => {
     // Validation
     if (!name.trim()) {
-      Alert.alert("Error", "Please enter a split name");
-      return;
+      Alert.alert('Error', 'Please enter a split name')
+      return
     }
 
-    const emptyDays = days.filter((d) => !d.muscleGroups.trim());
+    const emptyDays = days.filter((d) => !d.muscleGroups.trim())
     if (emptyDays.length > 0) {
-      Alert.alert("Error", "Please fill in all muscle group fields");
-      return;
+      Alert.alert('Error', 'Please fill in all muscle group fields')
+      return
     }
 
     try {
-      const splits = await loadSplits();
+      const splits = await loadSplits()
 
       if (isEdit && existingSplit) {
         // Update existing split
@@ -97,40 +72,29 @@ export function AddEditSplit() {
           days,
           weeklyHolidays,
           lastUpdated: new Date().toISOString(),
-        };
-        const newSplits = updateSplit(splits, updatedSplit);
-        await saveSplits(newSplits);
+        }
+        const newSplits = updateSplit(splits, updatedSplit)
+        await saveSplits(newSplits)
       } else {
         // Create new split
-        const newSplit = createSplit(name.trim(), days, weeklyHolidays);
-        await saveSplits([...splits, newSplit]);
+        const newSplit = createSplit(name.trim(), days, weeklyHolidays)
+        await saveSplits([...splits, newSplit])
       }
 
-      navigation.goBack();
+      navigation.goBack()
     } catch (error) {
-      console.error("Error saving split:", error);
-      Alert.alert(
-        "Error",
-        `Failed to save split: ${
-          error instanceof Error ? error.message : "Unknown error"
-        }`
-      );
+      console.error('Error saving split:', error)
+      Alert.alert('Error', `Failed to save split: ${error instanceof Error ? error.message : 'Unknown error'}`)
     }
-  };
+  }
 
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" />
-      <ScrollView
-        style={styles.scrollView}
-        contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={false}
-      >
+      <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
         {/* Header */}
         <View style={styles.header}>
-          <Text style={styles.title}>
-            {isEdit ? "EDIT SPLIT" : "NEW SPLIT"}
-          </Text>
+          <Text style={styles.title}>{isEdit ? 'EDIT SPLIT' : 'NEW SPLIT'}</Text>
         </View>
 
         {/* Split Name */}
@@ -175,49 +139,31 @@ export function AddEditSplit() {
         {/* Weekly Holidays */}
         <View style={styles.section}>
           <Text style={styles.sectionLabel}>WEEKLY REST DAYS</Text>
-          <Text style={styles.sectionSubtext}>
-            Select days you don't go to the gym
-          </Text>
+          <Text style={styles.sectionSubtext}>Select days you don't go to the gym</Text>
           <View style={styles.daysGrid}>
             {DAYS_OF_WEEK.map((dayName, index) => {
-              const isSelected = weeklyHolidays.includes(index);
+              const isSelected = weeklyHolidays.includes(index)
               return (
-                <TouchableOpacity
-                  key={index}
-                  style={[styles.dayChip, isSelected && styles.dayChipSelected]}
-                  onPress={() => toggleHoliday(index)}
-                >
-                  <Text
-                    style={[
-                      styles.dayChipText,
-                      isSelected && styles.dayChipTextSelected,
-                    ]}
-                  >
-                    {dayName.substring(0, 3).toUpperCase()}
-                  </Text>
+                <TouchableOpacity key={index} style={[styles.dayChip, isSelected && styles.dayChipSelected]} onPress={() => toggleHoliday(index)}>
+                  <Text style={[styles.dayChipText, isSelected && styles.dayChipTextSelected]}>{dayName.substring(0, 3).toUpperCase()}</Text>
                 </TouchableOpacity>
-              );
+              )
             })}
           </View>
         </View>
 
         {/* Save Button */}
         <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
-          <Text style={styles.saveButtonText}>
-            {isEdit ? "SAVE CHANGES" : "CREATE SPLIT"}
-          </Text>
+          <Text style={styles.saveButtonText}>{isEdit ? 'SAVE CHANGES' : 'CREATE SPLIT'}</Text>
         </TouchableOpacity>
 
         {/* Cancel Button */}
-        <TouchableOpacity
-          style={styles.cancelButton}
-          onPress={() => navigation.goBack()}
-        >
+        <TouchableOpacity style={styles.cancelButton} onPress={() => navigation.goBack()}>
           <Text style={styles.cancelButtonText}>CANCEL</Text>
         </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -276,9 +222,9 @@ const styles = StyleSheet.create({
     borderLeftColor: Colors.primary,
   },
   dayHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     marginBottom: Spacing.sm,
   },
   dayNumber: {
@@ -296,10 +242,10 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.cardBackground,
     borderRadius: BorderRadius.md,
     padding: Spacing.md,
-    alignItems: "center",
+    alignItems: 'center',
     borderWidth: 2,
     borderColor: Colors.border,
-    borderStyle: "dashed",
+    borderStyle: 'dashed',
   },
   addDayButtonText: {
     fontSize: Typography.regular,
@@ -308,8 +254,8 @@ const styles = StyleSheet.create({
     letterSpacing: 0.5,
   },
   daysGrid: {
-    flexDirection: "row",
-    flexWrap: "wrap",
+    flexDirection: 'row',
+    flexWrap: 'wrap',
     gap: Spacing.sm,
   },
   dayChip: {
@@ -336,7 +282,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.primary,
     paddingVertical: Spacing.md,
     borderRadius: BorderRadius.md,
-    alignItems: "center",
+    alignItems: 'center',
     marginBottom: Spacing.md,
   },
   saveButtonText: {
@@ -349,7 +295,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.cardBackground,
     paddingVertical: Spacing.md,
     borderRadius: BorderRadius.md,
-    alignItems: "center",
+    alignItems: 'center',
     borderWidth: 2,
     borderColor: Colors.border,
   },
@@ -359,4 +305,4 @@ const styles = StyleSheet.create({
     color: Colors.textPrimary,
     letterSpacing: 0.5,
   },
-});
+})
