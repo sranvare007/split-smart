@@ -6,6 +6,16 @@ import * as SplashScreen from 'expo-splash-screen';
 import * as React from 'react';
 import { Navigation } from './navigation';
 import { Colors } from './constants/theme';
+import {
+  useFonts,
+  BebasNeue_400Regular,
+} from '@expo-google-fonts/bebas-neue';
+import {
+  Montserrat_400Regular,
+  Montserrat_500Medium,
+  Montserrat_600SemiBold,
+  Montserrat_700Bold,
+} from '@expo-google-fonts/montserrat';
 
 Asset.loadAsync([
   ...NavigationAssets,
@@ -32,15 +42,30 @@ const CustomDarkTheme = {
 };
 
 export function App() {
+  const [fontsLoaded] = useFonts({
+    BebasNeue_400Regular,
+    Montserrat_400Regular,
+    Montserrat_500Medium,
+    Montserrat_600SemiBold,
+    Montserrat_700Bold,
+  });
+
+  React.useEffect(() => {
+    if (fontsLoaded) {
+      SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
+
+  if (!fontsLoaded) {
+    return null;
+  }
+
   return (
     <Navigation
       theme={CustomDarkTheme}
       linking={{
         enabled: 'auto',
         prefixes: [prefix],
-      }}
-      onReady={() => {
-        SplashScreen.hideAsync();
       }}
     />
   );

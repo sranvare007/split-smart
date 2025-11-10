@@ -47,6 +47,16 @@ export const FontWeight = {
   regular: '400' as const,
 };
 
+export const FontFamily = {
+  // Bold, impactful font for headings and workout titles
+  heading: 'BebasNeue_400Regular',
+  // Modern, versatile font for UI elements
+  body: 'Montserrat_400Regular',
+  bodyMedium: 'Montserrat_500Medium',
+  bodySemiBold: 'Montserrat_600SemiBold',
+  bodyBold: 'Montserrat_700Bold',
+};
+
 export const Spacing = {
   xs: 4,
   sm: 8,

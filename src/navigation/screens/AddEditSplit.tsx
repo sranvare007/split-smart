@@ -21,6 +21,7 @@ import {
   Colors,
   Typography,
   FontWeight,
+  FontFamily,
   Spacing,
   BorderRadius,
 } from "../../constants/theme";
@@ -235,22 +236,23 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: Typography.xl,
-    fontWeight: FontWeight.bold,
+    fontFamily: FontFamily.heading,
     color: Colors.textPrimary,
-    letterSpacing: 1.5,
+    letterSpacing: 2,
   },
   section: {
     marginBottom: Spacing.xl,
   },
   sectionLabel: {
     fontSize: Typography.small,
-    fontWeight: FontWeight.bold,
+    fontFamily: FontFamily.bodySemiBold,
     color: Colors.textSecondary,
     letterSpacing: 1.5,
     marginBottom: Spacing.sm,
   },
   sectionSubtext: {
     fontSize: Typography.small,
+    fontFamily: FontFamily.body,
     color: Colors.textTertiary,
     marginBottom: Spacing.md,
   },
@@ -259,6 +261,7 @@ const styles = StyleSheet.create({
     borderRadius: BorderRadius.md,
     padding: Spacing.md,
     fontSize: Typography.regular,
+    fontFamily: FontFamily.body,
     color: Colors.textPrimary,
     borderWidth: 2,
     borderColor: Colors.border,
@@ -279,14 +282,14 @@ const styles = StyleSheet.create({
   },
   dayNumber: {
     fontSize: Typography.small,
-    fontWeight: FontWeight.bold,
+    fontFamily: FontFamily.heading,
     color: Colors.primary,
-    letterSpacing: 1,
+    letterSpacing: 1.5,
   },
   removeButton: {
     fontSize: Typography.large,
     color: Colors.tertiary,
-    fontWeight: FontWeight.bold,
+    fontFamily: FontFamily.bodyBold,
   },
   addDayButton: {
     backgroundColor: Colors.cardBackground,
@@ -299,7 +302,7 @@ const styles = StyleSheet.create({
   },
   addDayButtonText: {
     fontSize: Typography.regular,
-    fontWeight: FontWeight.bold,
+    fontFamily: FontFamily.bodyBold,
     color: Colors.textSecondary,
     letterSpacing: 0.5,
   },
@@ -322,7 +325,7 @@ const styles = StyleSheet.create({
   },
   dayChipText: {
     fontSize: Typography.small,
-    fontWeight: FontWeight.bold,
+    fontFamily: FontFamily.bodyBold,
     color: Colors.textSecondary,
   },
   dayChipTextSelected: {
@@ -337,7 +340,7 @@ const styles = StyleSheet.create({
   },
   saveButtonText: {
     fontSize: Typography.medium,
-    fontWeight: FontWeight.bold,
+    fontFamily: FontFamily.bodyBold,
     color: Colors.background,
     letterSpacing: 0.5,
   },
@@ -351,7 +354,7 @@ const styles = StyleSheet.create({
   },
   cancelButtonText: {
     fontSize: Typography.medium,
-    fontWeight: FontWeight.bold,
+    fontFamily: FontFamily.bodyBold,
     color: Colors.textPrimary,
     letterSpacing: 0.5,
   },

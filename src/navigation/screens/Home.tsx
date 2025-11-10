@@ -24,6 +24,7 @@ import {
   Colors,
   Typography,
   FontWeight,
+  FontFamily,
   Spacing,
   BorderRadius,
 } from "../../constants/theme";
@@ -223,15 +224,15 @@ const styles = StyleSheet.create({
   },
   appTitle: {
     fontSize: Typography.xl,
-    fontWeight: FontWeight.bold,
+    fontFamily: FontFamily.heading,
     color: Colors.primary,
-    letterSpacing: 2,
+    letterSpacing: 3,
     marginBottom: Spacing.sm,
   },
   dateText: {
     fontSize: Typography.regular,
+    fontFamily: FontFamily.bodyMedium,
     color: Colors.textSecondary,
-    fontWeight: FontWeight.medium,
   },
   workoutCard: {
     backgroundColor: Colors.cardBackground,
@@ -243,26 +244,28 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: Typography.small,
+    fontFamily: FontFamily.bodySemiBold,
     color: Colors.textSecondary,
-    fontWeight: FontWeight.semiBold,
     letterSpacing: 1.5,
     marginBottom: Spacing.sm,
   },
   workoutTitle: {
     fontSize: Typography.xxxl,
-    fontWeight: FontWeight.bold,
+    fontFamily: FontFamily.heading,
     color: Colors.textPrimary,
     marginBottom: Spacing.md,
-    letterSpacing: 1,
+    letterSpacing: 2,
   },
   holidayText: {
     fontSize: Typography.xxl,
-    fontWeight: FontWeight.bold,
+    fontFamily: FontFamily.heading,
     color: Colors.secondary,
     marginBottom: Spacing.sm,
+    letterSpacing: 2,
   },
   holidaySubtext: {
     fontSize: Typography.medium,
+    fontFamily: FontFamily.body,
     color: Colors.textSecondary,
   },
   dayBadge: {
@@ -274,9 +277,9 @@ const styles = StyleSheet.create({
   },
   dayBadgeText: {
     fontSize: Typography.small,
-    fontWeight: FontWeight.bold,
+    fontFamily: FontFamily.heading,
     color: Colors.background,
-    letterSpacing: 1,
+    letterSpacing: 1.5,
   },
   splitInfoCard: {
     backgroundColor: Colors.cardBackground,
@@ -286,19 +289,20 @@ const styles = StyleSheet.create({
   },
   splitInfoLabel: {
     fontSize: Typography.tiny,
+    fontFamily: FontFamily.bodySemiBold,
     color: Colors.textTertiary,
-    fontWeight: FontWeight.semiBold,
     letterSpacing: 1.5,
     marginBottom: Spacing.xs,
   },
   splitInfoName: {
     fontSize: Typography.large,
-    fontWeight: FontWeight.bold,
+    fontFamily: FontFamily.bodyBold,
     color: Colors.textPrimary,
     marginBottom: Spacing.xs,
   },
   splitInfoDetails: {
     fontSize: Typography.regular,
+    fontFamily: FontFamily.body,
     color: Colors.textSecondary,
   },
   controlsCard: {
@@ -309,13 +313,14 @@ const styles = StyleSheet.create({
   },
   controlsTitle: {
     fontSize: Typography.medium,
-    fontWeight: FontWeight.bold,
+    fontFamily: FontFamily.bodyBold,
     color: Colors.textPrimary,
     marginBottom: Spacing.xs,
     letterSpacing: 1,
   },
   controlsSubtitle: {
     fontSize: Typography.small,
+    fontFamily: FontFamily.body,
     color: Colors.textSecondary,
     marginBottom: Spacing.md,
   },
@@ -341,7 +346,7 @@ const styles = StyleSheet.create({
   },
   controlButtonText: {
     fontSize: Typography.regular,
-    fontWeight: FontWeight.bold,
+    fontFamily: FontFamily.bodyBold,
     color: Colors.background,
     letterSpacing: 0.5,
   },
@@ -354,13 +359,14 @@ const styles = StyleSheet.create({
   },
   emptyTitle: {
     fontSize: Typography.xl,
-    fontWeight: FontWeight.bold,
+    fontFamily: FontFamily.heading,
     color: Colors.textSecondary,
     marginBottom: Spacing.sm,
-    letterSpacing: 1,
+    letterSpacing: 2,
   },
   emptyText: {
     fontSize: Typography.regular,
+    fontFamily: FontFamily.body,
     color: Colors.textTertiary,
     textAlign: "center",
     marginBottom: Spacing.lg,
@@ -373,7 +379,7 @@ const styles = StyleSheet.create({
   },
   primaryButtonText: {
     fontSize: Typography.medium,
-    fontWeight: FontWeight.bold,
+    fontFamily: FontFamily.bodyBold,
     color: Colors.background,
     letterSpacing: 0.5,
   },
@@ -387,7 +393,7 @@ const styles = StyleSheet.create({
   },
   manageButtonText: {
     fontSize: Typography.medium,
-    fontWeight: FontWeight.bold,
+    fontFamily: FontFamily.bodyBold,
     color: Colors.textPrimary,
     letterSpacing: 0.5,
   },

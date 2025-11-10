@@ -16,7 +16,7 @@ import {
   setActiveSplit,
   deleteSplit,
 } from '../../utils/splitUtils';
-import { Colors, Typography, FontWeight, Spacing, BorderRadius } from '../../constants/theme';
+import { Colors, Typography, FontWeight, FontFamily, Spacing, BorderRadius } from '../../constants/theme';
 
 export function Splits() {
   const navigation = useNavigation();
@@ -59,11 +59,11 @@ export function Splits() {
   };
 
   const handleEditSplit = (split: Split) => {
-    navigation.navigate('EditSplit', { split });
+    (navigation as any).navigate('EditSplit', { split });
   };
 
   const handleAddSplit = () => {
-    navigation.navigate('AddSplit');
+    (navigation as any).navigate('AddSplit');
   };
 
   return (
@@ -170,13 +170,14 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: Typography.xl,
-    fontWeight: FontWeight.bold,
+    fontFamily: FontFamily.heading,
     color: Colors.textPrimary,
-    letterSpacing: 1.5,
+    letterSpacing: 2,
     marginBottom: Spacing.xs,
   },
   subtitle: {
     fontSize: Typography.regular,
+    fontFamily: FontFamily.body,
     color: Colors.textSecondary,
   },
   addButton: {
@@ -188,7 +189,7 @@ const styles = StyleSheet.create({
   },
   addButtonText: {
     fontSize: Typography.medium,
-    fontWeight: FontWeight.bold,
+    fontFamily: FontFamily.bodyBold,
     color: Colors.background,
     letterSpacing: 0.5,
   },
@@ -200,13 +201,14 @@ const styles = StyleSheet.create({
   },
   emptyTitle: {
     fontSize: Typography.large,
-    fontWeight: FontWeight.bold,
+    fontFamily: FontFamily.heading,
     color: Colors.textSecondary,
     marginBottom: Spacing.sm,
-    letterSpacing: 1,
+    letterSpacing: 1.5,
   },
   emptyText: {
     fontSize: Typography.regular,
+    fontFamily: FontFamily.body,
     color: Colors.textTertiary,
     textAlign: 'center',
   },
@@ -232,26 +234,28 @@ const styles = StyleSheet.create({
   },
   activeBadgeText: {
     fontSize: Typography.tiny,
-    fontWeight: FontWeight.bold,
+    fontFamily: FontFamily.heading,
     color: Colors.background,
-    letterSpacing: 1,
+    letterSpacing: 1.5,
   },
   splitInfo: {
     marginBottom: Spacing.md,
   },
   splitName: {
     fontSize: Typography.large,
-    fontWeight: FontWeight.bold,
+    fontFamily: FontFamily.bodyBold,
     color: Colors.textPrimary,
     marginBottom: Spacing.xs,
   },
   splitDetails: {
     fontSize: Typography.regular,
+    fontFamily: FontFamily.body,
     color: Colors.textSecondary,
     marginBottom: Spacing.xs,
   },
   splitDays: {
     fontSize: Typography.small,
+    fontFamily: FontFamily.body,
     color: Colors.textTertiary,
   },
   actionRow: {
@@ -273,7 +277,7 @@ const styles = StyleSheet.create({
   },
   actionButtonText: {
     fontSize: Typography.small,
-    fontWeight: FontWeight.bold,
+    fontFamily: FontFamily.bodyBold,
     color: Colors.background,
     letterSpacing: 0.5,
   },
