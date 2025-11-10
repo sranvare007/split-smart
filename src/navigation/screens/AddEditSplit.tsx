@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   View,
@@ -8,40 +8,44 @@ import {
   ScrollView,
   StatusBar,
   Alert,
-} from 'react-native';
-import { Split, SplitDay, DAYS_OF_WEEK } from '../../types/split';
+} from "react-native";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import { Split, SplitDay, DAYS_OF_WEEK } from "../../types/split";
 import {
   loadSplits,
   saveSplits,
   createSplit,
   updateSplit,
-} from '../../utils/splitUtils';
-import { Colors, Typography, FontWeight, Spacing, BorderRadius } from '../../constants/theme';
+} from "../../utils/splitUtils";
+import {
+  Colors,
+  Typography,
+  FontWeight,
+  Spacing,
+  BorderRadius,
+} from "../../constants/theme";
 
-interface AddEditSplitProps {
-  navigation: any;
-  route: any;
-}
+export function AddEditSplit() {
+  const navigation = useNavigation();
+  const route = useRoute();
+  const isEdit = !!(route.params as any)?.split;
+  const existingSplit: Split | undefined = (route.params as any)?.split;
 
-export function AddEditSplit({ navigation, route }: AddEditSplitProps) {
-  const isEdit = !!route.params?.split;
-  const existingSplit: Split | undefined = route.params?.split;
-
-  const [name, setName] = useState(existingSplit?.name || '');
+  const [name, setName] = useState(existingSplit?.name || "");
   const [days, setDays] = useState<SplitDay[]>(
-    existingSplit?.days || [{ dayNumber: 1, muscleGroups: '' }]
+    existingSplit?.days || [{ dayNumber: 1, muscleGroups: "" }]
   );
   const [weeklyHolidays, setWeeklyHolidays] = useState<number[]>(
     existingSplit?.weeklyHolidays || []
   );
 
   const handleAddDay = () => {
-    setDays([...days, { dayNumber: days.length + 1, muscleGroups: '' }]);
+    setDays([...days, { dayNumber: days.length + 1, muscleGroups: "" }]);
   };
 
   const handleRemoveDay = (index: number) => {
     if (days.length === 1) {
-      Alert.alert('Error', 'You must have at least one day in your split');
+      Alert.alert("Error", "You must have at least one day in your split");
       return;
     }
     const newDays = days.filter((_, i) => i !== index);
@@ -70,13 +74,13 @@ export function AddEditSplit({ navigation, route }: AddEditSplitProps) {
   const handleSave = async () => {
     // Validation
     if (!name.trim()) {
-      Alert.alert('Error', 'Please enter a split name');
+      Alert.alert("Error", "Please enter a split name");
       return;
     }
 
     const emptyDays = days.filter((d) => !d.muscleGroups.trim());
     if (emptyDays.length > 0) {
-      Alert.alert('Error', 'Please fill in all muscle group fields');
+      Alert.alert("Error", "Please fill in all muscle group fields");
       return;
     }
 
@@ -102,7 +106,13 @@ export function AddEditSplit({ navigation, route }: AddEditSplitProps) {
 
       navigation.goBack();
     } catch (error) {
-      Alert.alert('Error', 'Failed to save split');
+      console.error("Error saving split:", error);
+      Alert.alert(
+        "Error",
+        `Failed to save split: ${
+          error instanceof Error ? error.message : "Unknown error"
+        }`
+      );
     }
   };
 
@@ -117,7 +127,7 @@ export function AddEditSplit({ navigation, route }: AddEditSplitProps) {
         {/* Header */}
         <View style={styles.header}>
           <Text style={styles.title}>
-            {isEdit ? 'EDIT SPLIT' : 'NEW SPLIT'}
+            {isEdit ? "EDIT SPLIT" : "NEW SPLIT"}
           </Text>
         </View>
 
@@ -172,10 +182,7 @@ export function AddEditSplit({ navigation, route }: AddEditSplitProps) {
               return (
                 <TouchableOpacity
                   key={index}
-                  style={[
-                    styles.dayChip,
-                    isSelected && styles.dayChipSelected,
-                  ]}
+                  style={[styles.dayChip, isSelected && styles.dayChipSelected]}
                   onPress={() => toggleHoliday(index)}
                 >
                   <Text
@@ -195,7 +202,7 @@ export function AddEditSplit({ navigation, route }: AddEditSplitProps) {
         {/* Save Button */}
         <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
           <Text style={styles.saveButtonText}>
-            {isEdit ? 'SAVE CHANGES' : 'CREATE SPLIT'}
+            {isEdit ? "SAVE CHANGES" : "CREATE SPLIT"}
           </Text>
         </TouchableOpacity>
 
@@ -265,9 +272,9 @@ const styles = StyleSheet.create({
     borderLeftColor: Colors.primary,
   },
   dayHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     marginBottom: Spacing.sm,
   },
   dayNumber: {
@@ -285,10 +292,10 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.cardBackground,
     borderRadius: BorderRadius.md,
     padding: Spacing.md,
-    alignItems: 'center',
+    alignItems: "center",
     borderWidth: 2,
     borderColor: Colors.border,
-    borderStyle: 'dashed',
+    borderStyle: "dashed",
   },
   addDayButtonText: {
     fontSize: Typography.regular,
@@ -297,8 +304,8 @@ const styles = StyleSheet.create({
     letterSpacing: 0.5,
   },
   daysGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+    flexDirection: "row",
+    flexWrap: "wrap",
     gap: Spacing.sm,
   },
   dayChip: {
@@ -325,7 +332,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.primary,
     paddingVertical: Spacing.md,
     borderRadius: BorderRadius.md,
-    alignItems: 'center',
+    alignItems: "center",
     marginBottom: Spacing.md,
   },
   saveButtonText: {
@@ -338,7 +345,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.cardBackground,
     paddingVertical: Spacing.md,
     borderRadius: BorderRadius.md,
-    alignItems: 'center',
+    alignItems: "center",
     borderWidth: 2,
     borderColor: Colors.border,
   },

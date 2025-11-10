@@ -27,6 +27,7 @@ export const saveSplits = async (splits: Split[]): Promise<void> => {
     await AsyncStorage.setItem(SPLITS_STORAGE_KEY, JSON.stringify(splits));
   } catch (error) {
     console.error('Error saving splits:', error);
+    throw error; // Re-throw so callers can handle it
   }
 };
 

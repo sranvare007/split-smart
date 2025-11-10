@@ -8,7 +8,7 @@ import {
   StatusBar,
   Alert,
 } from 'react-native';
-import { useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { Split } from '../../types/split';
 import {
   loadSplits,
@@ -18,7 +18,8 @@ import {
 } from '../../utils/splitUtils';
 import { Colors, Typography, FontWeight, Spacing, BorderRadius } from '../../constants/theme';
 
-export function Splits({ navigation }: any) {
+export function Splits() {
+  const navigation = useNavigation();
   const [splits, setSplits] = useState<Split[]>([]);
 
   const loadData = async () => {

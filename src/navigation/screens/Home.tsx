@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from "react";
 import {
   StyleSheet,
   View,
@@ -6,9 +6,9 @@ import {
   TouchableOpacity,
   ScrollView,
   StatusBar,
-} from 'react-native';
-import { useFocusEffect } from '@react-navigation/native';
-import { Split } from '../../types/split';
+} from "react-native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { Split } from "../../types/split";
 import {
   loadSplits,
   saveSplits,
@@ -19,10 +19,17 @@ import {
   goToPreviousDay,
   resetSplit,
   updateSplit,
-} from '../../utils/splitUtils';
-import { Colors, Typography, FontWeight, Spacing, BorderRadius } from '../../constants/theme';
+} from "../../utils/splitUtils";
+import {
+  Colors,
+  Typography,
+  FontWeight,
+  Spacing,
+  BorderRadius,
+} from "../../constants/theme";
 
-export function Home({ navigation }: any) {
+export function Home() {
+  const navigation = useNavigation();
   const [activeSplit, setActiveSplit] = useState<Split | null>(null);
   const [todaysWorkout, setTodaysWorkout] = useState<{
     muscleGroups: string;
@@ -178,7 +185,7 @@ export function Home({ navigation }: any) {
             </Text>
             <TouchableOpacity
               style={styles.primaryButton}
-              onPress={() => navigation.navigate('Splits')}
+              onPress={() => (navigation as any).navigate("Splits")}
             >
               <Text style={styles.primaryButtonText}>MANAGE SPLITS</Text>
             </TouchableOpacity>
@@ -189,7 +196,7 @@ export function Home({ navigation }: any) {
         {activeSplit && (
           <TouchableOpacity
             style={styles.manageButton}
-            onPress={() => navigation.navigate('Splits')}
+            onPress={() => (navigation as any).navigate("Splits")}
           >
             <Text style={styles.manageButtonText}>MANAGE SPLITS</Text>
           </TouchableOpacity>
@@ -263,7 +270,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.md,
     paddingVertical: Spacing.sm,
     borderRadius: BorderRadius.full,
-    alignSelf: 'flex-start',
+    alignSelf: "flex-start",
   },
   dayBadgeText: {
     fontSize: Typography.small,
@@ -313,7 +320,7 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.md,
   },
   controlsRow: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: Spacing.md,
     marginBottom: Spacing.md,
   },
@@ -321,7 +328,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingVertical: Spacing.md,
     borderRadius: BorderRadius.md,
-    alignItems: 'center',
+    alignItems: "center",
   },
   controlButtonPrimary: {
     backgroundColor: Colors.primary,
@@ -342,7 +349,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.cardBackground,
     borderRadius: BorderRadius.lg,
     padding: Spacing.xl,
-    alignItems: 'center',
+    alignItems: "center",
     marginBottom: Spacing.lg,
   },
   emptyTitle: {
@@ -355,7 +362,7 @@ const styles = StyleSheet.create({
   emptyText: {
     fontSize: Typography.regular,
     color: Colors.textTertiary,
-    textAlign: 'center',
+    textAlign: "center",
     marginBottom: Spacing.lg,
   },
   primaryButton: {
@@ -374,7 +381,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.cardBackground,
     paddingVertical: Spacing.md,
     borderRadius: BorderRadius.md,
-    alignItems: 'center',
+    alignItems: "center",
     borderWidth: 2,
     borderColor: Colors.border,
   },
