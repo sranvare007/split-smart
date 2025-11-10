@@ -1,0 +1,43 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background with gradient -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF0055;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#00D4FF;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="dumbbellGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#FFFFFF;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#E0E0E0;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FFFFFF;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1024" height="1024" rx="180" fill="url(#bgGradient)"/>
+
+  <!-- Dumbbell Design -->
+  <!-- Left weight -->
+  <rect x="200" y="400" width="120" height="224" rx="20" fill="url(#dumbbellGradient)" stroke="#00D4FF" stroke-width="8"/>
+  <rect x="220" y="420" width="80" height="184" rx="10" fill="#0a0a0a" opacity="0.3"/>
+
+  <!-- Right weight -->
+  <rect x="704" y="400" width="120" height="224" rx="20" fill="url(#dumbbellGradient)" stroke="#00D4FF" stroke-width="8"/>
+  <rect x="724" y="420" width="80" height="184" rx="10" fill="#0a0a0a" opacity="0.3"/>
+
+  <!-- Bar -->
+  <rect x="320" y="490" width="384" height="44" rx="22" fill="url(#dumbbellGradient)" stroke="#00D4FF" stroke-width="6"/>
+  <rect x="330" y="500" width="364" height="24" rx="12" fill="#0a0a0a" opacity="0.2"/>
+
+  <!-- Grip lines on bar -->
+  <line x1="420" y1="495" x2="420" y2="529" stroke="#00D4FF" stroke-width="4" opacity="0.6"/>
+  <line x1="450" y1="495" x2="450" y2="529" stroke="#00D4FF" stroke-width="4" opacity="0.6"/>
+  <line x1="480" y1="495" x2="480" y2="529" stroke="#00D4FF" stroke-width="4" opacity="0.6"/>
+  <line x1="510" y1="495" x2="510" y2="529" stroke="#00D4FF" stroke-width="4" opacity="0.6"/>
+  <line x1="540" y1="495" x2="540" y2="529" stroke="#00D4FF" stroke-width="4" opacity="0.6"/>
+  <line x1="570" y1="495" x2="570" y2="529" stroke="#00D4FF" stroke-width="4" opacity="0.6"/>
+  <line x1="600" y1="495" x2="600" y2="529" stroke="#00D4FF" stroke-width="4" opacity="0.6"/>
+
+  <!-- Weight plates detail -->
+  <circle cx="260" cy="512" r="8" fill="#00D4FF"/>
+  <circle cx="764" cy="512" r="8" fill="#00D4FF"/>
+</svg>

@@ -9,6 +9,8 @@ import { Image } from 'react-native';
 import bell from '../assets/bell.png';
 import newspaper from '../assets/newspaper.png';
 import { Home } from './screens/Home';
+import { Splits } from './screens/Splits';
+import { AddEditSplit } from './screens/AddEditSplit';
 import { Profile } from './screens/Profile';
 import { Settings } from './screens/Settings';
 import { Updates } from './screens/Updates';
@@ -19,7 +21,8 @@ const HomeTabs = createBottomTabNavigator({
     Home: {
       screen: Home,
       options: {
-        title: 'Feed',
+        title: 'Home',
+        headerShown: false,
         tabBarIcon: ({ color, size }) => (
           <Image
             source={newspaper}
@@ -32,9 +35,11 @@ const HomeTabs = createBottomTabNavigator({
         ),
       },
     },
-    Updates: {
-      screen: Updates,
+    Splits: {
+      screen: Splits,
       options: {
+        title: 'Splits',
+        headerShown: false,
         tabBarIcon: ({ color, size }) => (
           <Image
             source={bell}
@@ -56,6 +61,22 @@ const RootStack = createNativeStackNavigator({
       screen: HomeTabs,
       options: {
         title: 'Home',
+        headerShown: false,
+      },
+    },
+    AddSplit: {
+      screen: AddEditSplit,
+      options: {
+        title: 'New Split',
+        presentation: 'modal',
+        headerShown: false,
+      },
+    },
+    EditSplit: {
+      screen: AddEditSplit,
+      options: {
+        title: 'Edit Split',
+        presentation: 'modal',
         headerShown: false,
       },
     },
