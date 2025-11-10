@@ -19,6 +19,7 @@ import {
   goToPreviousDay,
   resetSplit,
   updateSplit,
+  autoAdvanceSplitIfNeeded,
 } from "../../utils/splitUtils";
 import {
   Colors,
@@ -41,7 +42,20 @@ export function Home() {
 
   const loadData = async () => {
     const splits = await loadSplits();
-    const active = getActiveSplit(splits);
+    let active = getActiveSplit(splits);
+
+    // Auto-advance split if days have passed since last access
+    if (active) {
+      const updatedSplit = await autoAdvanceSplitIfNeeded(active);
+
+      // If split was advanced, save it
+      if (updatedSplit.currentDayIndex !== active.currentDayIndex) {
+        const updatedSplits = updateSplit(splits, updatedSplit);
+        await saveSplits(updatedSplits);
+        active = updatedSplit;
+      }
+    }
+
     setActiveSplit(active);
 
     if (active) {
