@@ -1,65 +1,251 @@
-# Starter Template with React Navigation
+# Split Smart - Workout Split Tracker
 
-This is a minimal starter template for React Native apps using Expo and React Navigation.
+A React Native workout split tracking app with a bold, dark aesthetic perfect for gym-goers.
 
-It includes the following:
+## Features
 
-- Example [Native Stack](https://reactnavigation.org/docs/native-stack-navigator) with a nested [Bottom Tab](https://reactnavigation.org/docs/bottom-tab-navigator)
-- Web support with [React Native for Web](https://necolas.github.io/react-native-web/)
-- TypeScript support and configured for React Navigation
-- Automatic [deep link](https://reactnavigation.org/docs/deep-linking) and [URL handling configuration](https://reactnavigation.org/docs/configuring-links)
-- Theme support [based on system appearance](https://reactnavigation.org/docs/themes/#using-the-operating-system-preferences)
-- Expo [Development Build](https://docs.expo.dev/develop/development-builds/introduction/) with [Continuous Native Generation](https://docs.expo.dev/workflow/continuous-native-generation/)
+- **Track Workout Splits**: Create custom workout splits with muscle groups for each day
+- **Multiple Splits**: Manage multiple workout programs (only one active at a time)
+- **Weekly Rest Days**: Configure specific days of the week as rest days (e.g., Sundays)
+- **Manual Adjustments**: Skip forward, go back, or reset your split cycle if you miss days
+- **Today's Workout**: See your current workout at a glance with date display
+- **Dark Theme**: Bold, vibrant design with electric blue, orange, and red accents
+- **Custom Fonts**: Bebas Neue for headings, Montserrat for UI elements
+- **Custom Icons**: Dumbbell-themed app icons
+
+## Tech Stack
+
+- **React Native** 0.81.4
+- **Expo** 54.0.7
+- **TypeScript** 5.9.2
+- **React Navigation** 7.x
+- **AsyncStorage** for data persistence
+- **Google Fonts** (Bebas Neue, Montserrat)
 
 ## Getting Started
 
-1. Create a new project using this template:
+### Prerequisites
 
-   ```sh
-   npx create-expo-app@latest --template react-navigation/template
-   ```
+- Node.js 18+ installed
+- npm or yarn
+- For iOS: macOS with Xcode
+- For Android: Android Studio with SDK
 
-2. Edit the `app.json` file to configure the `name`, `slug`, `scheme` and bundle identifiers (`ios.bundleIdentifier` and `android.bundleIdentifier`) for your app.
+### Installation
 
-3. Edit the `src/App.tsx` file to start working on your app.
+1. Clone the repository:
+```bash
+git clone https://github.com/sranvare007/split-smart.git
+cd split-smart
+```
 
-## Running the app
+2. Install dependencies:
+```bash
+npm install
+```
 
-- Install the dependencies:
+3. Start the development server:
+```bash
+npm start
+```
 
-  ```sh
-  npm install
-  ```
+### Running the App
 
-- Start the development server:
+#### Development Builds (Required to see custom icons and fonts)
 
-  ```sh
-  npm start
-  ```
+For **Android**:
+```bash
+npx expo run:android
+```
 
-- Build and run iOS and Android development builds:
+For **iOS** (macOS only):
+```bash
+npx expo run:ios
+```
 
-  ```sh
-  npm run ios
-  # or
-  npm run android
-  ```
+#### Web Preview
+```bash
+npm run web
+```
 
-- In the terminal running the development server, press `i` to open the iOS simulator, `a` to open the Android device or emulator, or `w` to open the web browser.
+**Important**: Custom app icons only appear in native builds, not in the Metro bundler or Expo Go app.
 
-## Notes
+## Seeing Your Custom Icons
 
-This project uses a [development build](https://docs.expo.dev/develop/development-builds/introduction/) and cannot be run with [Expo Go](https://expo.dev/go). To run the app with Expo Go, edit the `package.json` file, remove the `expo-dev-client` package and `--dev-client` flag from the `start` script.
+After generating or modifying icons, you **must rebuild** the native app:
 
-We highly recommend using the development builds for normal development and testing.
+```bash
+# If you modified the icon SVG, regenerate PNG files first
+npm run generate-icons
 
-The `ios` and `android` folder are gitignored in the project by default as they are automatically generated during the build process ([Continuous Native Generation](https://docs.expo.dev/workflow/continuous-native-generation/)). This means that you should not edit these folders directly and use [config plugins](https://docs.expo.dev/config-plugins/) instead. However, if you need to edit these folders, you can remove them from the `.gitignore` file so that they are tracked by git.
+# Then rebuild for your platform
+npx expo run:android  # For Android
+# or
+npx expo run:ios      # For iOS
+```
 
-## Resources
+The icons are embedded into the native app at build time, so simply refreshing the Metro bundler won't update them.
 
-- [React Navigation documentation](https://reactnavigation.org/)
-- [Expo documentation](https://docs.expo.dev/)
+## Project Structure
+
+```
+split-smart/
+├── src/
+│   ├── App.tsx                 # Root app component with font loading
+│   ├── navigation/             # Navigation configuration
+│   │   ├── index.tsx           # Tab and stack navigators
+│   │   └── screens/            # All app screens
+│   │       ├── Home.tsx        # Today's workout display
+│   │       ├── Splits.tsx      # Manage all splits
+│   │       └── AddEditSplit.tsx # Create/edit splits
+│   ├── types/                  # TypeScript type definitions
+│   │   └── split.ts           # Split data structures
+│   ├── utils/                  # Utility functions
+│   │   └── splitUtils.ts      # Split logic and storage
+│   └── constants/              # App-wide constants
+│       └── theme.ts           # Colors, fonts, spacing
+├── assets/                     # App assets
+│   ├── icon.svg               # Source icon (editable)
+│   ├── icon.png               # App icon (1024x1024)
+│   ├── adaptive-icon.png      # Android adaptive icon
+│   ├── splash-icon.png        # Splash screen
+│   └── favicon.png            # Web favicon
+└── scripts/
+    └── generate-icons.js      # Icon generation script
+```
+
+## Customization
+
+### Colors
+
+Edit `src/constants/theme.ts`:
+
+```typescript
+export const Colors = {
+  primary: '#00D4FF',    // Electric Blue
+  secondary: '#FF6B35',  // Orange
+  tertiary: '#FF0055',   // Red
+  background: '#0a0a0a', // Dark background
+  // ... more colors
+};
+```
+
+### Fonts
+
+Fonts are configured in `src/constants/theme.ts` and loaded in `src/App.tsx`:
+- **Bebas Neue**: Bold headings and workout titles
+- **Montserrat**: Body text and UI elements (Regular, Medium, SemiBold, Bold)
+
+### Icons
+
+1. Edit `assets/icon.svg` with your preferred SVG editor
+2. Run `npm run generate-icons` to regenerate PNG files
+3. Rebuild the app: `npx expo run:android` or `npx expo run:ios`
+
+## Building for Production
+
+### Using EAS Build (Recommended)
+
+1. Install EAS CLI:
+```bash
+npm install -g eas-cli
+```
+
+2. Login to Expo:
+```bash
+eas login
+```
+
+3. Configure EAS:
+```bash
+eas build:configure
+```
+
+4. Build for your platform:
+```bash
+# Android APK/AAB
+eas build --platform android --profile production
+
+# iOS
+eas build --platform ios --profile production
+```
+
+## App Usage
+
+1. **First Launch**: App shows "No Active Split" message
+2. **Create Split**:
+   - Tap "MANAGE SPLITS"
+   - Tap "+ ADD NEW SPLIT"
+   - Enter split name (e.g., "Push Pull Legs")
+   - Add days with muscle groups
+   - Select weekly rest days (e.g., Sunday)
+   - Tap "CREATE SPLIT"
+3. **Activate Split**: Tap "ACTIVATE" on your split
+4. **View Workout**: Home screen shows today's workout
+5. **Adjust Split**: Use BACK/NEXT/RESET buttons if you miss days
+
+## Data Storage
+
+All data is stored locally using AsyncStorage:
+- Split configurations
+- Active split selection
+- Current day position
+- No server or account required
+
+## Troubleshooting
+
+### Icons Not Showing
+**Problem**: Icons appear as default Expo icon
+**Solution**: Rebuild the native app
+```bash
+npx expo run:android  # or npx expo run:ios
+```
+Icons are embedded at build time and won't update with hot reload.
+
+### Fonts Not Loading
+**Problem**: Text appears in system font
+**Solution**:
+1. Ensure dependencies are installed: `npm install`
+2. Clear cache: `npx expo start --clear`
+3. Check that `App.tsx` waits for fonts before rendering
+
+### Build Errors
+**Solutions**:
+```bash
+# Clear node modules
+rm -rf node_modules && npm install
+
+# Clear Expo cache
+npx expo start --clear
+
+# Clean prebuild
+npx expo prebuild --clean
+```
+
+### AsyncStorage Errors
+**Problem**: Data not persisting
+**Solution**: Ensure `@react-native-async-storage/async-storage` is installed and linked properly in native builds.
+
+## Scripts
+
+- `npm start` - Start Metro bundler
+- `npm run web` - Run on web browser
+- `npm run android` - Build and run on Android
+- `npm run ios` - Build and run on iOS (macOS only)
+- `npm run generate-icons` - Regenerate app icons from SVG
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+MIT License
+
+## Author
+
+sranvare007
 
 ---
 
-Demo assets are from [lucide.dev](https://lucide.dev/)
+Built with React Native, Expo, and React Navigation
