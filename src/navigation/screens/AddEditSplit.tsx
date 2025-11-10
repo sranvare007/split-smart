@@ -25,6 +25,7 @@ import {
   Spacing,
   BorderRadius,
 } from "../../constants/theme";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export function AddEditSplit() {
   const navigation = useNavigation();
@@ -118,7 +119,7 @@ export function AddEditSplit() {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" />
       <ScrollView
         style={styles.scrollView}
@@ -215,7 +216,7 @@ export function AddEditSplit() {
           <Text style={styles.cancelButtonText}>CANCEL</Text>
         </TouchableOpacity>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 }
 

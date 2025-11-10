@@ -28,6 +28,7 @@ import {
   Spacing,
   BorderRadius,
 } from "../../constants/theme";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export function Home() {
   const navigation = useNavigation();
@@ -93,7 +94,7 @@ export function Home() {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" />
       <ScrollView
         style={styles.scrollView}
@@ -203,7 +204,7 @@ export function Home() {
           </TouchableOpacity>
         )}
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 }
 
