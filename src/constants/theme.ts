@@ -26,7 +26,7 @@ export const Colors = {
   // Borders
   border: '#333333',
   borderLight: '#444444',
-};
+}
 
 export const Typography = {
   // Font sizes
@@ -38,14 +38,14 @@ export const Typography = {
   regular: 16,
   small: 14,
   tiny: 12,
-};
+}
 
 export const FontWeight = {
   bold: '700' as const,
   semiBold: '600' as const,
   medium: '500' as const,
   regular: '400' as const,
-};
+}
 
 export const FontFamily = {
   // Bold, impactful font for headings and workout titles
@@ -55,7 +55,7 @@ export const FontFamily = {
   bodyMedium: 'Montserrat_500Medium',
   bodySemiBold: 'Montserrat_600SemiBold',
   bodyBold: 'Montserrat_700Bold',
-};
+}
 
 export const Spacing = {
   xs: 4,
@@ -64,7 +64,7 @@ export const Spacing = {
   lg: 24,
   xl: 32,
   xxl: 48,
-};
+}
 
 export const BorderRadius = {
   sm: 8,
@@ -72,4 +72,4 @@ export const BorderRadius = {
   lg: 16,
   xl: 24,
   full: 9999,
-};
+}

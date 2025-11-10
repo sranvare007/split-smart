@@ -1,31 +1,19 @@
-import { Assets as NavigationAssets } from '@react-navigation/elements';
-import { DarkTheme } from '@react-navigation/native';
-import { Asset } from 'expo-asset';
-import { createURL } from 'expo-linking';
-import * as SplashScreen from 'expo-splash-screen';
-import * as React from 'react';
-import { Navigation } from './navigation';
-import { Colors } from './constants/theme';
-import {
-  useFonts,
-  BebasNeue_400Regular,
-} from '@expo-google-fonts/bebas-neue';
-import {
-  Montserrat_400Regular,
-  Montserrat_500Medium,
-  Montserrat_600SemiBold,
-  Montserrat_700Bold,
-} from '@expo-google-fonts/montserrat';
+import { Assets as NavigationAssets } from '@react-navigation/elements'
+import { DarkTheme } from '@react-navigation/native'
+import { Asset } from 'expo-asset'
+import { createURL } from 'expo-linking'
+import * as SplashScreen from 'expo-splash-screen'
+import * as React from 'react'
+import { Navigation } from './navigation'
+import { Colors } from './constants/theme'
+import { useFonts, BebasNeue_400Regular } from '@expo-google-fonts/bebas-neue'
+import { Montserrat_400Regular, Montserrat_500Medium, Montserrat_600SemiBold, Montserrat_700Bold } from '@expo-google-fonts/montserrat'
 
-Asset.loadAsync([
-  ...NavigationAssets,
-  require('./assets/newspaper.png'),
-  require('./assets/bell.png'),
-]);
+Asset.loadAsync([...NavigationAssets, require('./assets/newspaper.png'), require('./assets/bell.png')])
 
-SplashScreen.preventAutoHideAsync();
+SplashScreen.preventAutoHideAsync()
 
-const prefix = createURL('/');
+const prefix = createURL('/')
 
 // Custom dark theme with bold colors
 const CustomDarkTheme = {
@@ -39,7 +27,7 @@ const CustomDarkTheme = {
     border: Colors.border,
     notification: Colors.tertiary,
   },
-};
+}
 
 export function App() {
   const [fontsLoaded] = useFonts({
@@ -48,16 +36,16 @@ export function App() {
     Montserrat_500Medium,
     Montserrat_600SemiBold,
     Montserrat_700Bold,
-  });
+  })
 
   React.useEffect(() => {
     if (fontsLoaded) {
-      SplashScreen.hideAsync();
+      SplashScreen.hideAsync()
     }
-  }, [fontsLoaded]);
+  }, [fontsLoaded])
 
   if (!fontsLoaded) {
-    return null;
+    return null
   }
 
   return (
@@ -68,5 +56,5 @@ export function App() {
         prefixes: [prefix],
       }}
     />
-  );
+  )
 }

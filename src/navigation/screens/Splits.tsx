@@ -1,87 +1,59 @@
-import React, { useState, useCallback } from "react";
-import {
-  StyleSheet,
-  View,
-  Text,
-  TouchableOpacity,
-  ScrollView,
-  StatusBar,
-  Alert,
-} from "react-native";
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import { Split } from "../../types/split";
-import {
-  loadSplits,
-  saveSplits,
-  setActiveSplit,
-  deleteSplit,
-} from "../../utils/splitUtils";
-import {
-  Colors,
-  Typography,
-  FontWeight,
-  FontFamily,
-  Spacing,
-  BorderRadius,
-} from "../../constants/theme";
-import { SafeAreaView } from "react-native-safe-area-context";
+import React, { useState, useCallback } from 'react'
+import { StyleSheet, View, Text, TouchableOpacity, ScrollView, StatusBar, Alert } from 'react-native'
+import { useFocusEffect, useNavigation } from '@react-navigation/native'
+import { Split } from '../../types/split'
+import { loadSplits, saveSplits, setActiveSplit, deleteSplit } from '../../utils/splitUtils'
+import { Colors, Typography, FontWeight, FontFamily, Spacing, BorderRadius } from '../../constants/theme'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 export function Splits() {
-  const navigation = useNavigation();
-  const [splits, setSplits] = useState<Split[]>([]);
+  const navigation = useNavigation()
+  const [splits, setSplits] = useState<Split[]>([])
 
   const loadData = async () => {
-    const loadedSplits = await loadSplits();
-    setSplits(loadedSplits);
-  };
+    const loadedSplits = await loadSplits()
+    setSplits(loadedSplits)
+  }
 
   useFocusEffect(
     useCallback(() => {
-      loadData();
+      loadData()
     }, [])
-  );
+  )
 
   const handleActivateSplit = async (splitId: string) => {
-    const updatedSplits = setActiveSplit(splits, splitId);
-    await saveSplits(updatedSplits);
-    setSplits(updatedSplits);
-  };
+    const updatedSplits = setActiveSplit(splits, splitId)
+    await saveSplits(updatedSplits)
+    setSplits(updatedSplits)
+  }
 
   const handleDeleteSplit = async (split: Split) => {
-    Alert.alert(
-      "Delete Split",
-      `Are you sure you want to delete "${split.name}"?`,
-      [
-        { text: "Cancel", style: "cancel" },
-        {
-          text: "Delete",
-          style: "destructive",
-          onPress: async () => {
-            const updatedSplits = deleteSplit(splits, split.id);
-            await saveSplits(updatedSplits);
-            setSplits(updatedSplits);
-          },
+    Alert.alert('Delete Split', `Are you sure you want to delete "${split.name}"?`, [
+      { text: 'Cancel', style: 'cancel' },
+      {
+        text: 'Delete',
+        style: 'destructive',
+        onPress: async () => {
+          const updatedSplits = deleteSplit(splits, split.id)
+          await saveSplits(updatedSplits)
+          setSplits(updatedSplits)
         },
-      ]
-    );
-  };
+      },
+    ])
+  }
 
   const handleEditSplit = (split: Split) => {
-    (navigation as any).navigate("EditSplit", { split });
-  };
+    ;(navigation as any).navigate('EditSplit', { split })
+  }
 
   const handleAddSplit = () => {
-    (navigation as any).navigate("AddSplit");
-  };
+    ;(navigation as any).navigate('AddSplit')
+  }
 
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" />
-      <ScrollView
-        style={styles.scrollView}
-        contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={false}
-      >
+      <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
         {/* Header */}
         <View style={styles.header}>
           <Text style={styles.title}>YOUR SPLITS</Text>
@@ -97,19 +69,11 @@ export function Splits() {
         {splits.length === 0 ? (
           <View style={styles.emptyCard}>
             <Text style={styles.emptyTitle}>NO SPLITS YET</Text>
-            <Text style={styles.emptyText}>
-              Create your first workout split to get started
-            </Text>
+            <Text style={styles.emptyText}>Create your first workout split to get started</Text>
           </View>
         ) : (
           splits.map((split) => (
-            <View
-              key={split.id}
-              style={[
-                styles.splitCard,
-                split.isActive && styles.splitCardActive,
-              ]}
-            >
+            <View key={split.id} style={[styles.splitCard, split.isActive && styles.splitCardActive]}>
               {/* Active Badge */}
               {split.isActive && (
                 <View style={styles.activeBadge}>
@@ -120,34 +84,21 @@ export function Splits() {
               {/* Split Info */}
               <View style={styles.splitInfo}>
                 <Text style={styles.splitName}>{split.name}</Text>
-                <Text style={styles.splitDetails}>
-                  {split.days.length} Day Program
-                </Text>
-                <Text style={styles.splitDays}>
-                  {split.days.map((d) => d.muscleGroups).join(" • ")}
-                </Text>
+                <Text style={styles.splitDetails}>{split.days.length} Day Program</Text>
+                <Text style={styles.splitDays}>{split.days.map((d) => d.muscleGroups).join(' • ')}</Text>
               </View>
 
               {/* Action Buttons */}
               <View style={styles.actionRow}>
                 {!split.isActive && (
-                  <TouchableOpacity
-                    style={styles.actionButton}
-                    onPress={() => handleActivateSplit(split.id)}
-                  >
+                  <TouchableOpacity style={styles.actionButton} onPress={() => handleActivateSplit(split.id)}>
                     <Text style={styles.actionButtonText}>ACTIVATE</Text>
                   </TouchableOpacity>
                 )}
-                <TouchableOpacity
-                  style={[styles.actionButton, styles.actionButtonSecondary]}
-                  onPress={() => handleEditSplit(split)}
-                >
+                <TouchableOpacity style={[styles.actionButton, styles.actionButtonSecondary]} onPress={() => handleEditSplit(split)}>
                   <Text style={styles.actionButtonText}>EDIT</Text>
                 </TouchableOpacity>
-                <TouchableOpacity
-                  style={[styles.actionButton, styles.actionButtonDanger]}
-                  onPress={() => handleDeleteSplit(split)}
-                >
+                <TouchableOpacity style={[styles.actionButton, styles.actionButtonDanger]} onPress={() => handleDeleteSplit(split)}>
                   <Text style={styles.actionButtonText}>DELETE</Text>
                 </TouchableOpacity>
               </View>
@@ -156,7 +107,7 @@ export function Splits() {
         )}
       </ScrollView>
     </SafeAreaView>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -190,7 +141,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.primary,
     paddingVertical: Spacing.md,
     borderRadius: BorderRadius.md,
-    alignItems: "center",
+    alignItems: 'center',
     marginBottom: Spacing.lg,
   },
   addButtonText: {
@@ -203,7 +154,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.cardBackground,
     borderRadius: BorderRadius.lg,
     padding: Spacing.xl,
-    alignItems: "center",
+    alignItems: 'center',
   },
   emptyTitle: {
     fontSize: Typography.large,
@@ -216,7 +167,7 @@ const styles = StyleSheet.create({
     fontSize: Typography.regular,
     fontFamily: FontFamily.body,
     color: Colors.textTertiary,
-    textAlign: "center",
+    textAlign: 'center',
   },
   splitCard: {
     backgroundColor: Colors.cardBackground,
@@ -224,7 +175,7 @@ const styles = StyleSheet.create({
     padding: Spacing.lg,
     marginBottom: Spacing.md,
     borderWidth: 2,
-    borderColor: "transparent",
+    borderColor: 'transparent',
   },
   splitCardActive: {
     borderColor: Colors.primary,
@@ -235,7 +186,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.md,
     paddingVertical: Spacing.xs,
     borderRadius: BorderRadius.full,
-    alignSelf: "flex-start",
+    alignSelf: 'flex-start',
     marginBottom: Spacing.sm,
   },
   activeBadgeText: {
@@ -265,7 +216,7 @@ const styles = StyleSheet.create({
     color: Colors.textTertiary,
   },
   actionRow: {
-    flexDirection: "row",
+    flexDirection: 'row',
     gap: Spacing.sm,
   },
   actionButton: {
@@ -273,7 +224,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.primary,
     paddingVertical: Spacing.sm,
     borderRadius: BorderRadius.sm,
-    alignItems: "center",
+    alignItems: 'center',
   },
   actionButtonSecondary: {
     backgroundColor: Colors.secondary,
@@ -287,4 +238,4 @@ const styles = StyleSheet.create({
     color: Colors.background,
     letterSpacing: 0.5,
   },
-});
+})
