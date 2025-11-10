@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "split-smart",
+    "name": "Split Smart",
     "slug": "split-smart",
     "version": "1.0.0",
     "orientation": "default",
@@ -31,6 +31,11 @@
           "image": "./assets/splash-icon.png"
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "ee6a2d28-fe48-48d2-a774-44f34ad24797"
+      }
+    }
   }
 }
